@@ -1,0 +1,54 @@
+# 若设置为true则会在后台输出检查的详细信息
+debug: false
+
+server:
+  enable: true
+  port: 8080
+
+# Nashorn引擎参数设置
+# 每次reload后都会重新创建js引擎并应用参数
+nashorn_params:
+  - "-strict"
+  - "--language=es6"
+
+# API路由设置
+# pathParameters.get 和 queryParameters.get 可用来获取路径参数和查询参数
+routers:
+  - method: GET
+    path: /api/server/online
+    script: |-
+      const Bukkit = Java.type('org.bukkit.Bukkit');
+      const players = Java.from(Bukkit.getOnlinePlayers())
+      JSON.stringify(players.map(e => e.name))
+  - method: GET
+    path: /api/server/perms
+    script: |-
+      const Bukkit = Java.type('org.bukkit.Bukkit');
+      const perms = Java.from(Bukkit.getPluginManager().getPermissions());
+      
+      JSON.stringify(perms.map(perm => ({
+        "name": perm.getName(),
+        "description": perm.getDescription(),
+        "default": perm.getDefault().toString()
+      })))
+  - method: GET
+    path: /api/player/{name}/location
+    script: |-
+      const Bukkit = Java.type('org.bukkit.Bukkit');
+      const playerName = pathParameters.get("name");
+      const player = Bukkit.getPlayer(playerName);
+
+      if (player == null) {
+        throw new Error('玩家不在线或不存在: ' + playerName)
+      }
+      
+      const loc = player.getLocation();
+      JSON.stringify({
+          "player": player.getName(),
+          "world": loc.getWorld().getName(),
+          "x": loc.getX(),
+          "y": loc.getY(),
+          "z": loc.getZ(),
+          "yaw": loc.getYaw(),
+          "pitch": loc.getPitch()
+      });
