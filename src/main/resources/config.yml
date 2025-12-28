@@ -12,7 +12,11 @@ nashorn_params:
   - "--language=es6"
 
 # API路由设置
-# pathParameters.get 和 queryParameters.get 可用来获取路径参数和查询参数
+# 支持 console.log (以及debug info warn error) 输出调试信息到控制台 前提是打开 debug 选项
+# fail(code: number, message: string) 可用来抛出错误响应
+# require(fileName: string) 用于加载外部js文件
+# pathParameters.get 用来获取路径参数
+# queryParameters.get 用来获取查询参数
 routers:
   - method: GET
     path: /api/server/online
