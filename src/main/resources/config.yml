@@ -52,3 +52,23 @@ routers:
           "yaw": loc.getYaw(),
           "pitch": loc.getPitch()
       });
+  - method: GET
+    path: /api/server/test
+    script: |-
+      // plugins/EApi/foo.js
+
+      // const module = {
+      //     foo: 'text1',
+      //     bar() {
+      //     return 'text2'
+      //   }
+      // };
+      //
+      // module
+
+      const example = require('foo')
+      
+      JSON.stringify({
+        foo: example.foo,
+        bar: example.bar()
+      })

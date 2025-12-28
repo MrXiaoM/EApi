@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "top.e404"
-version = "1.0.0"
+version = "1.1.0"
 val epluginVer = "1.4.0-SNAPSHOT"
 
 fun eplugin(module: String, version: String = epluginVer) = "top.e404.eplugin:eplugin-$module:$version"
