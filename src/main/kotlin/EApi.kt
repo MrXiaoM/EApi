@@ -25,6 +25,7 @@ open class EApi : EPlugin() {
     }
 
     override fun onEnable() {
+        bstats()
         Lang.load(null)
         Config.load(null)
         Commands.register()
